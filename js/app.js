@@ -55,7 +55,9 @@ cardapio.metodos = {
     },
 
     verificarRespostaAPI: () => {
-        if (!apiRespostaRecebida) {
+        const tipoEntrega = $("#tipoEntrega").val();
+
+        if (tipoEntrega === "entrega" && !apiRespostaRecebida) {
             cardapio.metodos.mensagem('Aguarde a confirmação do endereço.');
             return false; // Impede o avanço
         }
@@ -83,7 +85,7 @@ cardapio.metodos = {
         });
     },
     
-        calcularFrete: (distanciaKm) => {
+    calcularFrete: (distanciaKm) => {
         let valorFrete = 0;
     
         if (distanciaKm <= 1) {
@@ -523,11 +525,34 @@ cardapio.metodos = {
             cardapio.metodos.mensagem('Informe o CEP, por favor.');
             $("#txtCEP").focus();
         }
-
+        
+    },
+    
+    // Função para mostrar ou ocultar o formulário de endereço
+    mostrarFormularioEntrega: () => {
+        const tipoEntrega = $("#tipoEntrega").val();
+        
+        if (tipoEntrega === "entrega") {
+            $("#campoEntrega").removeClass('hidden');  // Exibe o formulário de endereço
+        } else {
+            $("#campoEntrega").addClass('hidden');  // Oculta o formulário de endereço
+        }
     },
 
     // validação antes de prosseguir para a etapa 3
     carregarPagamento: () => {
+
+        const tipoEntrega = $("#tipoEntrega").val();  // Verificar o tipo de entrega
+
+        // Se for "Retirar no Local", pula a validação de endereço
+        if (tipoEntrega === "local") {
+        MEU_ENDERECO = null;  // Não precisa de endereço
+        VALOR_ENTREGA = 0;
+        $("#lblValorEntrega").text('R$ 0,00');
+        $("#lblValorTotal").text(`R$ ${(VALOR_CARRINHO).toFixed(2).replace('.', ',')}`)
+        cardapio.metodos.carregarEtapa(3);  // Avança para a próxima etapa
+        return;
+        }
 
         let cep = $("#txtCEP").val().trim();
         let endereco = $("#txtEndereco").val().trim();
@@ -541,13 +566,13 @@ cardapio.metodos = {
             cardapio.metodos.mensagem('Por favor, preencha todos os campos de endereço corretamente.');
             return;
         }
-
+        
         if (cep.length <= 0) {
             cardapio.metodos.mensagem('Informe o CEP, por favor.');
             $("#txtCEP").focus();
             return;
         }
-
+        
         if (endereco.length <= 0) {
             cardapio.metodos.mensagem('Informe o Endereço, por favor.');
             $("#txtEndereco").focus();
@@ -621,11 +646,10 @@ cardapio.metodos = {
         cardapio.metodos.carregarEtapa(4);
         cardapio.metodos.carregarResumo();
     },
-    
+
 
     // carrega a etapa de Resumo do pedido
     carregarResumo: () => {
-
         if (FORMA_PAGAMENTO.length <= 0) {
             cardapio.metodos.mensagem('Selecione a forma de pagamento.');
             return;
@@ -645,9 +669,14 @@ cardapio.metodos = {
             $("#listaItensResumo").append(temp);
         });
     
-        // Exibir o endereço de entrega
-        $("#resumoEndereco").html(`${MEU_ENDERECO.endereco}, ${MEU_ENDERECO.numero}, ${MEU_ENDERECO.bairro}`);
-        $("#cidadeEndereco").html(`${MEU_ENDERECO.cidade}-${MEU_ENDERECO.uf} / ${MEU_ENDERECO.cep} ${MEU_ENDERECO.complemento}`);
+        // Exibir o endereço de entrega ou a opção "local"
+        const tipoEntrega = $("#tipoEntrega").val();
+        if (tipoEntrega === "local") {
+            $("#resumoEndereco").html('Retirar no Local');
+        } else {
+            $("#resumoEndereco").html(`${MEU_ENDERECO.endereco}, ${MEU_ENDERECO.numero}, ${MEU_ENDERECO.bairro}`);
+            $("#cidadeEndereco").html(`${MEU_ENDERECO.cidade}-${MEU_ENDERECO.uf} / ${MEU_ENDERECO.cep} ${MEU_ENDERECO.complemento}`);
+        }
     
         // Exibir a forma de pagamento
         let formaPagamentoResumo = `${FORMA_PAGAMENTO.formaPagamento}`;
@@ -662,13 +691,13 @@ cardapio.metodos = {
         cardapio.metodos.finalizarPedido();
     },
     
+    
 
     // Atualiza o link do botão do WhatsApp
     finalizarPedido: () => {
-
-        if (MEU_CARRINHO.length > 0 && MEU_ENDERECO != null && FORMA_PAGAMENTO != null) {
+        if (MEU_CARRINHO.length > 0) {
     
-            var texto = 'Olá! gostaria de fazer um pedido:';
+            var texto = 'Olá! Gostaria de fazer um pedido:';
             texto += `\n*Itens do pedido:*\n\n`;
     
             var itens = '';
@@ -678,11 +707,18 @@ cardapio.metodos = {
                 itens += `*${e.qntd}x* ${e.name} ....... R$ ${e.price.toFixed(2).replace('.', ',')} \n`;
             });
     
-            texto += itens; // Adiciona todos os itens à mensagem principal
+            texto += itens;
     
-            texto += '\n*Endereço de entrega:*';
-            texto += `\n${MEU_ENDERECO.endereco}, ${MEU_ENDERECO.numero}, ${MEU_ENDERECO.bairro}`;
-            texto += `\n${MEU_ENDERECO.cidade}-${MEU_ENDERECO.uf} / ${MEU_ENDERECO.cep} ${MEU_ENDERECO.complemento}`;
+            // Verificar o tipo de entrega e atualizar a mensagem conforme a escolha
+            const tipoEntrega = $("#tipoEntrega").val();
+            if (tipoEntrega === "local") {
+                texto += '\n*Retirar no Local*';
+            } else {
+                texto += '\n*Endereço de entrega:*';
+                texto += `\n${MEU_ENDERECO.endereco}, ${MEU_ENDERECO.numero}, ${MEU_ENDERECO.bairro}`;
+                texto += `\n${MEU_ENDERECO.cidade}-${MEU_ENDERECO.uf} / ${MEU_ENDERECO.cep} ${MEU_ENDERECO.complemento}`;
+            }
+    
             texto += '\n\n*Forma de Pagamento:*';
             texto += `\n${FORMA_PAGAMENTO.formaPagamento}`;
     
@@ -701,6 +737,7 @@ cardapio.metodos = {
             $("#btnEtapaResumo").attr('href', URL);
         }
     },
+    
     
     // carrega o link do botão reserva
     carregarBotaoReserva: () => {
