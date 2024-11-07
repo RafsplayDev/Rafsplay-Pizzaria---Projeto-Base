@@ -101,6 +101,38 @@
         left: 15px
     }
 
+    .card-item-custom {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        width: 100%;
+    }
+
+    /* Imagem à esquerda */
+    .img-custom img{
+        display: none;
+    }
+
+    .card-item-custom .title-custom {
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    /* Preço abaixo do nome */
+    .card-item-custom .price-custom {
+        text-align: center;
+        margin-top: 5px; /* Espaço entre nome e preço */
+    }
+
+    /* Posiciona o add-carrinho-custom abaixo */
+    .card-item-custom .add-carrinho-custom {
+        width: 100%;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+    }
+
     .card-item {
         height: 110px;
         padding-left: 110px;

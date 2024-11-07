@@ -1,6 +1,7 @@
 $(document).ready(function () {
     cardapio.eventos.init();
-})
+    cardapio.metodos.carregarEnderecoCliente();  // Carrega o endereço salvo, se houver
+});
 
 const API_KEY = '33aee6dc15b5474fa55571d614426efe';
 
@@ -17,6 +18,9 @@ var VALOR_ENTREGA = 'Informe o local de entrega';
 
 var CELULAR_EMPRESA = '77991480877';
 
+var saborUm = null;
+var saborDois = null;
+
 cardapio.eventos = {
 
     init: () => {
@@ -29,6 +33,32 @@ cardapio.eventos = {
 
 cardapio.metodos = {
 
+    salvarEnderecoCliente: () => {
+        const endereco = {
+            cep: $("#txtCEP").val().trim(),
+            endereco: $("#txtEndereco").val().trim(),
+            bairro: $("#txtBairro").val().trim(),
+            cidade: $("#txtCidade").val().trim(),
+            uf: $("#ddlUf").val().trim(),
+            numero: $("#txtNumero").val().trim(),
+            complemento: $("#txtComplemento").val().trim()
+        };
+        localStorage.setItem("enderecoCliente", JSON.stringify(endereco));
+    },
+    
+    carregarEnderecoCliente: () => {
+        const enderecoSalvo = JSON.parse(localStorage.getItem("enderecoCliente"));
+        if (enderecoSalvo) {
+            $("#txtCEP").val(enderecoSalvo.cep);
+            $("#txtEndereco").val(enderecoSalvo.endereco);
+            $("#txtBairro").val(enderecoSalvo.bairro);
+            $("#txtCidade").val(enderecoSalvo.cidade);
+            $("#ddlUf").val(enderecoSalvo.uf);
+            $("#txtNumero").val(enderecoSalvo.numero);
+            $("#txtComplemento").val(enderecoSalvo.complemento);
+        }
+    },
+    
     buscarCoordenadasEndereco: () => {
         let endereco = `${$("#txtEndereco").val()}, ${$("#txtNumero").val()}, ${$("#txtCidade").val()}, ${$("#ddlUf").val()}`;
         
@@ -131,41 +161,162 @@ cardapio.metodos = {
 
     // obtem a lista de itens do cardápio
     obterItensCardapio: (categoria = 'pizzas-t', vermais = false) => {
-
+        // Obtenha o filtro com base na categoria selecionada
         var filtro = MENU[categoria];
         console.log(filtro);
-
+    
         if (!vermais) {
             $("#itensCardapio").html('');
             $("#btnVerMais").removeClass('hidden');
         }
-
-        $.each(filtro, (i, e) => {
-
-            let temp = cardapio.templates.item.replace(/\${img}/g, e.img)
-            .replace(/\${nome}/g, e.name)
-            .replace(/\${preco}/g, e.price.toFixed(2).replace('.', ','))
-            .replace(/\${id}/g, e.id)
-            .replace(/\${descricao}/g,e.dsc)
-
-            // botão ver mais foi clicado (12 itens)
-            if (vermais && i >= 8 && i < 70) {
-                $("#itensCardapio").append(temp)
-            }
-
-            // paginação inicial (8 itens)
-            if (!vermais && i < 8) {
-                $("#itensCardapio").append(temp)
-            }
-
-        })
-
-        // remove o ativo
+    
+        // Verifica se a categoria atual é diferente de "meio-a-meio"
+        if (categoria !== 'meio-a-meio') {
+            // Adiciona a classe 'hidden' para ocultar os elementos de meio-a-meio
+            $("#cardMensagem").addClass('hidden');
+            $("#saborCustom").addClass('hidden');
+    
+            // Carrega os itens no formato normal
+            $.each(filtro, (i, e) => {
+                let temp = cardapio.templates.item.replace(/\${img}/g, e.img)
+                    .replace(/\${nome}/g, e.name)
+                    .replace(/\${preco}/g, e.price.toFixed(2).replace('.', ','))
+                    .replace(/\${id}/g, e.id)
+                    .replace(/\${descricao}/g, e.dsc);
+    
+                if (vermais && i >= 8 && i < 70) {
+                    $("#itensCardapio").append(temp);
+                }
+    
+                if (!vermais && i < 8) {
+                    $("#itensCardapio").append(temp);
+                }
+            });
+        } else {
+            // Mostra a mensagem e carrega os itens no formato meio-a-meio
+            $("#cardMensagem").removeClass('hidden');
+            $("#cardMensagem").text("Selecione o primeiro sabor");
+    
+            $.each(filtro, (i, e) => {
+                let temp = cardapio.templates.itemMeioaMeio.replace(/\${img}/g, e.img)
+                    .replace(/\${nome}/g, e.name)
+                    .replace(/\${preco}/g, e.price.toFixed(2).replace('.', ','))
+                    .replace(/\${id}/g, e.id)
+                    .replace(/\${descricao}/g, e.dsc);
+    
+                if (vermais && i >= 8 && i < 70) {
+                    $("#itensCardapio").append(temp);
+                }
+    
+                if (!vermais && i < 8) {
+                    $("#itensCardapio").append(temp);
+                }
+            });
+        }
+    
+        // Remove a classe 'active' de todos os links do menu e define o menu atual como ativo
         $(".container-menu a").removeClass('active');
+        $("#menu-" + categoria).addClass('active');
+    },
+    
+    iniciarItemCustom: () => {
+        $("#saborCustom").removeClass('hidden');
+    },
 
-        // seta o menu para ativo
-        $("#menu-" + categoria).addClass('active')
+    adicionarCustomUm: (id) => {
 
+        // Obtém o item do cardápio correspondente ao ID do sabor
+        let categoria = $(".container-menu a.active").attr('id').split('menu-')[1];
+        let filtro = MENU[categoria];
+        saborUm = filtro.find(e => e.id === id);
+
+        // Limpar a seleção do segundo sabor caso já tenha sido feita anteriormente
+        saborDois = null;
+        $(".btn-sabor-2").removeClass('disabled select');
+        $(".badge-custom-2").addClass('hidden');
+
+        // Habilitar todos os botões de sabor 2 e limpar classes `select` e `disabled`
+        $(".btn-sabor-1, .btn-sabor-2").removeClass('select disabled');
+        $(".badge-custom-1, .badge-custom-2").addClass('hidden');
+
+        // Ocultar o menu customizado, pois o processo de seleção foi reiniciado
+        $("#saborCustom").addClass('hidden');
+        $("#saborCustom .title-custom").html("");  // Limpa o título customizado
+        $("#saborCustom .price-custom").html("");  // Limpa o preço customizado
+        
+        // Remove a classe `select` e o badge de sabor 1 de qualquer card que tenha sido previamente selecionado
+        $(".btn-sabor-1").removeClass('select'); // Remove a classe `select` de todos os botões
+        $(".badge-custom-1").addClass('hidden');  // Oculta todos os badges de sabor
+
+        // Adiciona a classe `select` ao botão de primeiro sabor do card atual e exibe o badge no card correto
+        $(`#badgeCustomUm-${id}`).removeClass('hidden'); // Exibe o badge de sabor 1
+        $(`#btnSaborUm-${id}`).addClass('select'); // Adiciona a classe `select` ao botão de primeiro sabor
+        
+        // Atualiza a mensagem para o usuário
+        $("#cardMensagem").text("Selecione o segundo sabor");
+
+        // Habilita todos os botões de segundo sabor (removendo a classe `.disabled`)
+        $(".btn-sabor-2").removeClass('disabled');
+
+        // desabilita o botão de segundo sabor do primeiro sabor selecionado
+        $(`#btnSaborDois-${id}`).addClass('disabled');
+    },
+
+    adicionarCustomDois: (id) => {
+
+        // Obtém o item do cardápio correspondente ao ID do sabor
+        let categoria = $(".container-menu a.active").attr('id').split('menu-')[1];
+        let filtro = MENU[categoria];
+        saborDois = filtro.find(e => e.id === id);
+
+        // Nome do item personalizado no carrinho
+        let nomePersonalizado = `${saborUm.name} + ${saborDois.name}`;
+
+        // Preço ajustado (média dos dois sabores)
+        let precoPersonalizado = ((saborUm.price + saborDois.price) / 2).toFixed(2);
+
+        // Exibir a `.sabor-custom` com o título e preço personalizados
+        $("#saborCustom").removeClass('hidden');
+        $("#saborCustom .title-custom").html(`<b>${nomePersonalizado}</b>`);
+        $("#saborCustom .price-custom").html(`<b>R$ ${precoPersonalizado.replace('.', ',')}</b>`);
+
+        // Cria novo item personalizado no carrinho
+        let itemPersonalizado = {
+            id: `meio-a-meio-${saborUm.id}-${saborDois.id}`,
+            name: nomePersonalizado,
+            price: parseFloat(precoPersonalizado),
+            qntd: 1,
+            img: saborUm.img // Usa a imagem do primeiro sabor como referência
+        };
+
+        // HTML para o botão de adicionar ao carrinho com o ID do item personalizado
+        let htmlContent = `
+        <span class="btn-menos" onclick="cardapio.metodos.diminuirQuantidade('${itemPersonalizado.id}')"><i class="fas fa-minus"></i></span>
+        <span class="add-numero-itens" id="qntd-${itemPersonalizado.id}">1</span>
+        <span class="btn-mais" onclick="cardapio.metodos.aumentarQuantidade('${itemPersonalizado.id}')"><i class="fas fa-plus"></i></span>
+        <span class="btn btn-add" onclick="cardapio.metodos.adicionarAoCarrinho('${itemPersonalizado.id}')"><i class="fa fa-shopping-bag"></i></span>
+        `;
+
+        // Substitui o conteúdo de #add-carrinho-custom com o novo HTML
+        $("#add-carrinho-custom").html(htmlContent);
+
+        cardapio.metodos.iniciarItemCustom();
+
+        // Remove a classe `select` e o badge de sabor 1 de qualquer card que tenha sido previamente selecionado
+        $(".btn-sabor-2").removeClass('select'); // Remove a classe `select` de todos os botões
+        $(".badge-custom-2").addClass('hidden');  // Oculta todos os badges de sabor
+
+        // Adiciona a classe `select` ao botão de primeiro sabor do card atual e exibe o badge no card correto
+        $(`#badgeCustomDois-${id}`).removeClass('hidden'); // Exibe o badge de sabor 2
+        $(`#btnSaborDois-${id}`).addClass('select'); // Adiciona a classe `select` ao botão de segundo sabor
+
+        // desabilita o botão de primeiro sabor do segundo sabor selecionado
+        $(`#btnSaborUm-${id}`).addClass('disabled');
+        
+        // Atualiza a mensagem para o usuário
+        $("#cardMensagem").text("Adicione sua pizza ao carrinho!");
+
+        document.getElementById("cardapio").scrollIntoView({ behavior: 'smooth' });
     },
 
     // clique no botão de ver mais
@@ -195,50 +346,65 @@ cardapio.metodos = {
         let qntdAtual = parseInt($("#qntd-" + id).text());
         $("#qntd-" + id).text(qntdAtual + 1)
 
+        console.log(id);
+
     },
 
     // adicionar ao carrinho o item do cardápio
     adicionarAoCarrinho: (id) => {
-
         let qntdAtual = parseInt($("#qntd-" + id).text());
-
+    
         if (qntdAtual > 0) {
-
-            // obter a categoria ativa
-            var categoria = $(".container-menu a.active").attr('id').split('menu-')[1];
-
-            // obtem a lista de itens
-            let filtro = MENU[categoria];
-
-            // obtem o item
-            let item = $.grep(filtro, (e, i) => { return e.id == id });
-
-            if (item.length > 0) {
-
-                // validar se já existe esse item no carrinho
-                let existe = $.grep(MEU_CARRINHO, (elem, index) => { return elem.id == id });
-
-                // caso já exista o item no carrinho, só altera a quantidade
-                if (existe.length > 0) {
-                    let objIndex = MEU_CARRINHO.findIndex((obj => obj.id == id));
-                    MEU_CARRINHO[objIndex].qntd = MEU_CARRINHO[objIndex].qntd + qntdAtual;
+            // Verifica se o ID começa com "meio-a-meio-", indicando um item personalizado
+            if (id.startsWith("meio-a-meio-")) {
+                // Procura o item personalizado no carrinho pelo ID
+                let itemPersonalizado = MEU_CARRINHO.find(e => e.id === id);
+    
+                if (itemPersonalizado) {
+                    // Se já existe, apenas atualiza a quantidade
+                    itemPersonalizado.qntd += qntdAtual;
+                } else {
+                    // Se não existe, cria um novo item personalizado no carrinho
+                    let novoItem = {
+                        id: id,
+                        name: $("#saborCustom .title-custom b").text(),
+                        price: parseFloat($("#saborCustom .price-custom b").text().replace('R$ ', '').replace(',', '.')),
+                        qntd: qntdAtual,
+                        img: saborUm.img // Usa a imagem do primeiro sabor como referência
+                    };
+                    MEU_CARRINHO.push(novoItem);
                 }
-                // caso ainda não exista o item no carrinho, adiciona ele 
-                else {
-                    item[0].qntd = qntdAtual;
-                    MEU_CARRINHO.push(item[0])
-                }      
-                
-                cardapio.metodos.mensagem('Item adicionado ao carrinho', 'green')
-                $("#qntd-" + id).text(0);
 
-                cardapio.metodos.atualizarBadgeTotal();
+                // Atualiza a mensagem no card para itens personalizados
+                $("#cardMensagem").text("Pizza Meio a Meio adicionada ao carrinho!");
 
+    
+            } else {
+                // Lógica original para itens normais do cardápio
+                var categoria = $(".container-menu a.active").attr('id').split('menu-')[1];
+                let filtro = MENU[categoria];
+                let item = $.grep(filtro, (e) => e.id === id);
+    
+                if (item.length > 0) {
+                    let existe = $.grep(MEU_CARRINHO, (elem) => elem.id === id);
+    
+                    if (existe.length > 0) {
+                        let objIndex = MEU_CARRINHO.findIndex((obj) => obj.id === id);
+                        MEU_CARRINHO[objIndex].qntd += qntdAtual;
+                    } else {
+                        item[0].qntd = qntdAtual;
+                        MEU_CARRINHO.push(item[0]);
+                    }
+                }
             }
-
+    
+            // Exibe a mensagem de confirmação e redefine a quantidade visual
+            cardapio.metodos.mensagem('Item adicionado ao carrinho', 'green');
+            $("#qntd-" + id).text(0);
+            cardapio.metodos.atualizarBadgeTotal();
         }
-
     },
+    
 
     // atualiza o badge de totais dos botões "Meu carrinho"
     atualizarBadgeTotal: () => {
@@ -561,11 +727,6 @@ cardapio.metodos = {
         let uf = $("#ddlUf").val().trim();
         let numero = $("#txtNumero").val().trim();
         let complemento = $("#txtComplemento").val().trim();
-
-        if (cep.length <= 0 || endereco.length <= 0 || cidade.length <= 0 || uf === "-1" || numero.length <= 0) {
-            cardapio.metodos.mensagem('Por favor, preencha todos os campos de endereço corretamente.');
-            return;
-        }
         
         if (cep.length <= 0) {
             cardapio.metodos.mensagem('Informe o CEP, por favor.');
@@ -607,9 +768,12 @@ cardapio.metodos = {
             complemento: complemento
         }
 
-        // Chamar a função para buscar as coordenadas e calcular a distância
+        if (cep.length > 0 && endereco.length > 0 && cidade.length > 0 && uf !== "-1" && numero.length > 0) {
+        cardapio.metodos.salvarEnderecoCliente();
         cardapio.metodos.buscarCoordenadasEndereco();
         cardapio.metodos.carregarEtapa(3);
+}
+
     },
 
     // validação antes de prosseguir para a etapa 4
@@ -814,6 +978,36 @@ cardapio.templates = {
                     <span class="add-numero-itens" id="qntd-\${id}">0</span>
                     <span class="btn-mais" onclick="cardapio.metodos.aumentarQuantidade('\${id}')"><i class="fas fa-plus"></i></span>
                     <span class="btn btn-add" onclick="cardapio.metodos.adicionarAoCarrinho('\${id}')"><i class="fa fa-shopping-bag"></i></span>
+                </div>
+                <div class="card-dsc" id="\${id}">
+                    <p class="title-dsc mt-4 text-center">
+                        <b>\${nome}</b>
+                    </p>
+                    <p class="dsc-produto text-center">
+                        \${descricao}
+                     </p>
+                </div>
+            </div>
+        </div>
+    `,
+
+    itemMeioaMeio: `
+        <div class="col-12 col-lg-3 col-md-3 col-sm-6 mb-5 animated fadeInUp">
+            <div class="card card-item" id="\${id}">
+                <div class="badge-custom-1 hidden" id="badgeCustomUm-\${id}">1</div>
+                <div class="badge-custom-2 hidden" id="badgeCustomDois-\${id}">2</div>
+                <div class="img-produto">
+                    <img src="\${img}" />
+                </div>
+                <p class="title-produto text-center mt-4">
+                    <b>\${nome}</b>
+                </p>
+                <p class="price-produto text-center">
+                    <b>R$ \${preco}</b>
+                </p>
+                <div class="add-carrinho">
+                    <span class="btn-sabor-1" id="btnSaborUm-\${id}" onclick="cardapio.metodos.adicionarCustomUm('\${id}')">1</span>
+                    <span class="btn-sabor-2 disabled" id="btnSaborDois-\${id}" onclick="cardapio.metodos.adicionarCustomDois('\${id}')">2</span>
                 </div>
                 <div class="card-dsc" id="\${id}">
                     <p class="title-dsc mt-4 text-center">

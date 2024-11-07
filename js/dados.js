@@ -1,4 +1,440 @@
 var MENU = {
+    "meio-a-meio": [
+        {
+            "id": "pizza-portuguesa-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Portuguesa",
+            "dsc": "mussarela, presunto, palmito, ovo, ervilha e cebola",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-marguerita-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Marguerita",
+            "dsc": "mussarela, manjericão e tomate",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-calabresa-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Calabresa",
+            "dsc": "mussarela, calabresa e cebola",
+            "price": 39.90
+        },
+        {
+            "id": "pizza-frango-catupiry-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Frango com Catupiry",
+            "dsc": "mussarela, catupiry, frango e tomate",
+            "price": 39.90
+        },
+        {
+            "id": "pizza-center-pizza-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Center Pizza",
+            "dsc": "lombo canadense, bacon, milho, presunto, mussarela, catupiry e tomate",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-polastra-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Polastra",
+            "dsc": "mussarela, frango, requeijão e milho, catupiry e tomate",
+            "price": 39.90
+        },
+        {
+            "id": "pizza-quatro-queijos-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Quatro Queijos",
+            "dsc": "mussarela, provolone, catupiry, gorgonzola e tomate",
+            "price": 45.90
+        },
+        {
+            "id": "pizza-carne-seca-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Carne Seca",
+            "dsc": "mussarela, carne seca, catupiry, cebola e tomate",
+            "price": 49.90
+        },
+        {
+            "id": "pizza-paulista-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Paulista",
+            "dsc": "presunto, mussarela e tomate",
+            "price": 39.90
+        },
+        {
+            "id": "pizza-mussarela-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Mussarela",
+            "dsc": "mussarela e tomate",
+            "price": 39.90
+        },
+        {
+            "id": "pizza-alho-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Alho",
+            "dsc": "mussarela, alho e tomate",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-alpina-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Alpina",
+            "dsc": "mussarela, champignon, cebola e bacon",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-americana-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Americana",
+            "dsc": "mussarela, palmito, cebola e bacon",
+            "price": 39.90
+        },
+        {
+            "id": "pizza-atum-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Atum",
+            "dsc": "mussarela, atum, cebola e tomate",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-bacon-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Bacon",
+            "dsc": "mussarela, bacon, ovo e tomate",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-bacon-cheddar-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Bacon e Cheddar",
+            "dsc": "bacon, cheddar, tomate e mussarela",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-bacon-requeijao-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Bacon com Requeijão",
+            "dsc": "bacon, requeijão, tomate e mussarela",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-baiana-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Baiana",
+            "dsc": "mussarela, calabresa moída, pimenta, ovos, cebola e tomate",
+            "price": 39.90
+        },
+        {
+            "id": "pizza-brocolis1-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Brócolis I",
+            "dsc": "mussarela, brócolis, catupiry, alho e tomate",
+            "price": 39.90
+        },
+        {
+            "id": "pizza-brocolis2-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Brócolis II",
+            "dsc": "mussarela, brócolis, champignon e creme de leite",
+            "price": 39.90
+        },
+        {
+            "id": "pizza-brocolis-bacon-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Brócolis com Bacon",
+            "dsc": "brócolis, bacon, tomate, catupiry e mussarela",
+            "price": 39.90
+        },
+        {
+            "id": "pizza-caipira-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Caipira",
+            "dsc": "mussarela, peito de peru, ovo, bacon e milho",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-calabresa-catupiry-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Calabresa com Catupiry",
+            "dsc": "mussarela, calabresa, cebola e catupiry",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-calabresa-salame-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Calabresa com Salame",
+            "dsc": "mussarela, tomate, calabresa e salame",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-camponesa-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Camponesa",
+            "dsc": "mussarela, frango, palmito, champignon, catupiry e milho",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-champignon-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Champignon",
+            "dsc": "mussarela, presunto, champignon, creme de leite e tomate",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-chilena-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Chilena",
+            "dsc": "mussarela, frango, azeitona, bacon e catupiry",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-cheddar-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Cheddar",
+            "dsc": "mussarela, tomate e cheddar",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-doritos-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Doritos",
+            "dsc": "mussarela, tomate, doritos, cheddar e catupiry",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-favorita-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Favorita",
+            "dsc": "mussarela, calabresa moída, palmito e azeitonas",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-francesa-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Francesa",
+            "dsc": "mussarela, peito de peru, brócolis, milho e requeijão",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-frango-bacon-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Frango com Bacon",
+            "dsc": "mussarela, frango, tomate, catupiry e bacon",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-frango-cheddar-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Frango com Cheddar",
+            "dsc": "mussarela, cheddar, frango e tomate",
+            "price": 39.90
+        },
+        {
+            "id": "pizza-frango2-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Frango II",
+            "dsc": "mussarela, ovo, frango, tomate e catupiry",
+            "price": 39.90
+        },
+        {
+            "id": "pizza-lombo-catupiry-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Lombo Catupiry",
+            "dsc": "mussarela, lombo canadense, catupiry e tomate",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-genova-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Gênova",
+            "dsc": "mussarela, provolone, alho, manjericão e azeitona fatiada",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-mexicana-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Mexicana",
+            "dsc": "mussarela, pimentão, cebola, bacon, alho e mussarela",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-milho-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Milho",
+            "dsc": "mussarela, milho, catupiry, bacon e alho",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-nova-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Nova",
+            "dsc": "mussarela, lombinho, palmito, tomate e catupiry",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-napolitana-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Napolitana",
+            "dsc": "mussarela, provolone e tomate",
+            "price": 39.90
+        },
+        {
+            "id": "pizza-nordestina-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Nordestina",
+            "dsc": "mussarela, carne moída, pimenta, calabresa moída, ovo, cebola e tomate",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-palmialho-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "palmialho",
+            "dsc": "palmito, tomate seco, champignon, mussarela e alho",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-palmito-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Palmito",
+            "dsc": "mussarela, palmito, catupiry e tomate",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-peito-peru-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Peito de Peru",
+            "dsc": "peito de peru, requeijão, tomate, mussarela e bacon",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-cinco-queijos-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Cinco Queijos",
+            "dsc": "mussarela, catupiry, gorgonzola, provolone e cheddar",
+            "price": 45.90
+        },
+        {
+            "id": "pizza-rustica-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Rústica",
+            "dsc": "mussarela, atum, ovo, cebola e azeitona",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-salame-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Salame",
+            "dsc": "mussarela, salame e tomate",
+            "price": 46.90
+        },
+        {
+            "id": "pizza-siciliana-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Siciliana",
+            "dsc": "mussarela, presunto, champignon, bacon e tomate",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-tomate-seco-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Tomate Seco",
+            "dsc": "Mussarela, tomate seco e catupiry",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-toscana-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Toscana",
+            "dsc": "Mussarela, calabresa moída, tomate e catupiry",
+            "price": 39.90
+        },
+        {
+            "id": "pizza-vegetariana-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Vegetariana",
+            "dsc": "Mussarela, brócolis, ervilha, palmito, milho e tomate seco",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-catupiry-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Catupiry",
+            "dsc": "Mussarela, tomate e catupiry original",
+            "price": 45.90
+        },
+        {
+            "id": "pizza-strogonoff-de-carne-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Strogonoff de Carne",
+            "dsc": "Mussarela, strogonoff de carne, catupiry e batata palha",
+            "price": 46.90
+        },
+        {
+            "id": "pizza-strogonoff-de-frango-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Strogonoff de Frango",
+            "dsc": "Mussarela, strogonoff de frango, catupiry e batata palha",
+            "price": 45.90
+        },
+        {
+            "id": "pizza-banana-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Banana",
+            "dsc": "Banana, creme de leite, mussarela, açúcar e canela",
+            "price": 32.90
+        },
+        {
+            "id": "pizza-banana-com-chocolate-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Banana com Chocolate",
+            "dsc": "Banana, açúcar, canela e chocolate",
+            "price": 35.90
+        },
+        {
+            "id": "pizza-chocolate-com-morango-ou-uva-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Chocolate com Morango ou Uva",
+            "dsc": "Mussarela, chocolate, morango ou uva",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-banana-chocolate-branco-caramelizado-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Banana com Chocolate Branco Caramelizado",
+            "dsc": "Mussarela, chocolate branco e banana caramelizada",
+            "price": 39.90
+        },
+        {
+            "id": "pizza-chocolate-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "paçoquinha",
+            "dsc": "Mussarela, chocolate e granulado",
+            "price": 38.90
+        },
+        {
+            "id": "pizza-pacoquinha-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "paçoquinha",
+            "dsc": "Mussarela, paçoquinha e bombom com borda de chocolate branco",
+            "price": 33.90
+        },
+        {
+            "id": "pizza-nutella-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "Nutella",
+            "dsc": "Mussarela e Nutella",
+            "price": 42.90
+        },
+        {
+            "id": "pizza-delikat-economica",
+            "img": "./img/cardapio/pizza-e.png",
+            "name": "DeliKat",
+            "dsc": "Chocolate ao leite e Kit Kat",
+            "price": 39.00
+        }
+],
     "pasteis": [
     {
         "id": "pastel-atum",

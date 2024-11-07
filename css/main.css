@@ -273,6 +273,31 @@ a.navbar-brand {
   height: 360px;
 }
 
+.card-item-custom {
+    border-radius: 11px;
+    margin-bottom: 20px;
+    background-color: var(--color-white);
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--color-primary);
+}
+
+.card-item-custom .title-custom {
+    color: var(--color-black-heavy);
+    height: 40px;
+    margin-bottom: 0px;
+    font-size: 20px;
+}
+
+.card-item-custom .price-custom {
+    color: var(--color-primary);
+    height: 40px;
+    margin-bottom: 0px;
+    font-size: 20px;
+}
+
 .card-item .title-produto {
     color: var(--color-black);
     text-overflow: ellipsis;
@@ -307,6 +332,52 @@ a.navbar-brand {
     height: 30px;
     justify-content: center;
     align-items: center;
+}
+
+.select {
+    background-color: var(--color-black-heavy);
+    color: var(--color-white)!important;
+}
+
+.badge-custom-1, .badge-custom-2  {
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    color: var(--color-white);
+    background-color: var(--color-black-heavy);
+    border-radius: 50px;
+    right: 10px;
+    top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none; /* Impede o clique */
+}
+
+.btn-sabor-1, .btn-sabor-2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-black-heavy);
+    margin: 5px;
+    width: 35px;
+    height: 35px;
+    border: 2px solid var(--color-black-heavy);
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-sabor:hover {
+    background-color: var(--color-black-heavy);
+    color: var(--color-white);
 }
 
 .btn-menos {
@@ -381,6 +452,17 @@ a.navbar-brand {
 
 .card-item:hover .img-produto {
   display: none;
+}
+
+.card-mensagem {
+    background-color: var(--color-green);
+    color: var(--color-white)!important;
+    border-radius: 20px;
+    padding: 10px 25px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+    top: -25px;
 }
 
 .depoimentos {
@@ -643,6 +725,15 @@ footer {
 }
 
 .modal-full .add-carrinho {
+    display: flex;
+    text-align: center;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-carrinho-custom {
+    padding-right: 20px;
     display: flex;
     text-align: center;
     height: 30px;
