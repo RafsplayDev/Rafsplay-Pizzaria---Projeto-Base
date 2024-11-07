@@ -282,7 +282,6 @@ a.navbar-brand {
     justify-content: center;
     align-items: center;
     border: 2px solid var(--color-primary);
-    padding: 10px;
 }
 
 .card-item-custom .title-custom {
